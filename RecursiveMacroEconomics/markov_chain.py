@@ -27,15 +27,28 @@ class MarkovChain:
         '''
         self.__check_types()
         self.__check_matrix_size()
+        self.__check_non_negative()
         self.__check_probability()
 
 
     def __check_types(self):
         if not type(self.__transion_mat) ==np.ndarray:
             raise Exception("input must be nparray")
-        if not (self.__transion_mat.dtype!="float64" or self.__transion_mat.dtype!="int64"):
+        if not (self.__transion_mat.dtype!="float64"):
             raise Exception("input must be float 64 or int64 ")
 
+
+
+
+    def __check_non_negative(self):
+        '''
+
+        :return:
+        '''
+        for row  in self.__transion_mat:
+            for ele in row:
+                if ele<0.0:
+                    raise Exception("transition matri must not have any  nevative elements")
 
 
     def __check_probability(self):
@@ -43,7 +56,6 @@ class MarkovChain:
         sum of each row mustbe 1
         :return:
         '''
-
         for i in range(self.__size[0]):
             rowsum=sum(self.__transion_mat[0])
             if not(rowsum==1.0 or rowsum==1):
