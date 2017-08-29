@@ -5,22 +5,65 @@ class MarkovChain:
     def __init__(self):
         print("nyan")
 
-    def calc(self,transition_mat):
+
+
+    def calc_n_step_ahead_distribution(self,transition_mat,initial_distribution,num_of_transition):
+        '''
+
+        :param transition_mat:
+        :param initial_distribution:
+        :param num_of_transition:
+        :return:
+        '''
+        self.set_matrix(transition_mat)
+        self.__initial_distribution=initial_distribution
+
+        tmp_init=self.__initial_distribution
+        tmp_output=None
+        for i in range(num_of_transition):
+            tmp_output=np.dot(tmp_init,self.__transion_mat)
+            #print(tmp_output)
+            tmp_init=tmp_output
+
+        print(tmp_output)
+
+        return tmp_output
+
+    def set_matrix(self,transition_mat):
+        self.__transion_mat=transition_mat
+        self.check_input_matrix()
+
+
+
+
+    def calc_statioanry_distribution(self,transition_mat):
         '''
 
         :param transition_mat:
         :return:
         '''
-        print(transition_mat)
-        self.__transion_mat=transition_mat
+        self.set_matrix(transition_mat)
+        self.__la, self.__vec = np.linalg.eig(np.transpose(self.__transion_mat))
 
-        self.check_input()
-        la, v = np.linalg.eig(self.__transion_mat)
-        print(la)
-        print(v)
+        ##固有ベクトルに府の要素がある場合にはそれを除くように修正する必要がある
+        self.__normalize_vector()
+        print(self.__la)
+        print(self.__vec)
 
 
-    def check_input(self):
+
+
+    def __normalize_vector(self):
+
+        for num in range(len(self.__vec)):
+            self.__vec[num]=self.__vec[num]/np.sum(self.__vec[num])
+
+
+
+
+
+
+    def check_input_matrix(self):
         '''
         chcech wheher input matrix is a transition matrix and if not raise exception
         :return:
@@ -32,10 +75,10 @@ class MarkovChain:
 
 
     def __check_types(self):
-        if not type(self.__transion_mat) ==np.ndarray:
+        if  type(self.__transion_mat) !=np.ndarray:
             raise Exception("input must be nparray")
-        if not (self.__transion_mat.dtype!="float64"):
-            raise Exception("input must be float 64 or int64 ")
+        if (self.__transion_mat.dtype!="float64"):
+            raise Exception("input must be float64 ")
 
 
 
@@ -62,8 +105,8 @@ class MarkovChain:
                 raise Exception("sum of each row must be 1")
 
 
-    def __check_matrix_size(self,transition_matrix):
-        self.__size=transition_matrix.shape
+    def __check_matrix_size(self):
+        self.__size=self.__transion_mat.shape
         if len(self.__size)!=2:
             raise Exception("size must be 2")
         if self.__size[0]!=self.__size[1]:
@@ -74,9 +117,11 @@ class MarkovChain:
 
 if __name__=="__main__":
     mat = np.array([[0.8, 0.2, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],dtype=float)
-    print(type(mat))
-    test=MarkovChain()
+    #print(np.transpose(mat))
 
-    test.calc(None)
+    markov=MarkovChain()
+    (markov.calc_statioanry_distribution(mat))
+
+    markov.calc_n_step_ahead_distribution(mat,np.array([0.4,0.1,0.5],dtype=float),4000)
 
 
