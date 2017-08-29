@@ -75,8 +75,8 @@ class MarkovChain:
 if __name__=="__main__":
     mat = np.array([[0.8, 0.2, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],dtype=float)
     print(type(mat))
-    #test=MarkovChain()
+    test=MarkovChain()
 
-    #test.calc(mat)
+    test.calc(None)
 
 
