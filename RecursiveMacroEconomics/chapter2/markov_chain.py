@@ -20,14 +20,34 @@ class MarkovChain:
 
         tmp_init=self.__initial_distribution
         tmp_output=None
+        self.__transposed=np.transpose(self.__transion_mat)
         for i in range(num_of_transition):
-            tmp_output=np.dot(tmp_init,self.__transion_mat)
+            tmp_output=np.dot(self.__transposed,tmp_init)
             #print(tmp_output)
             tmp_init=tmp_output
 
         print(tmp_output)
 
         return tmp_output
+
+    def set_initial_distribution(self,initial_distribution):
+        self.__initial_distribution=initial_distribution
+        self.check_initial_distribution()
+
+
+    def check_initial_distribution(self):
+        self.__check__types(self.__initial_distribution)
+
+
+
+            #if type(self.__transion_mat) != np.ndarray:
+            #    raise Exception("input must be nparray")
+            #if (self.__transion_mat.dtype != "float64"):
+             #   raise Exception("input must be float64 ")
+
+
+
+
 
     def set_matrix(self,transition_mat):
         self.__transion_mat=transition_mat
@@ -68,22 +88,22 @@ class MarkovChain:
         chcech wheher input matrix is a transition matrix and if not raise exception
         :return:
         '''
-        self.__check_types()
+        self.__check__types(self.__transion_mat)
         self.__check_matrix_size()
-        self.__check_non_negative()
-        self.__check_probability()
+        self.__check_matrix_non_negative()
+        self.__check_matrix_probability()
 
 
-    def __check_types(self):
-        if  type(self.__transion_mat) !=np.ndarray:
+    def __check__types(self,input_mat):
+        if  type(input_mat) !=np.ndarray:
             raise Exception("input must be nparray")
-        if (self.__transion_mat.dtype!="float64"):
+        if (input_mat.dtype!="float64"):
             raise Exception("input must be float64 ")
 
 
 
 
-    def __check_non_negative(self):
+    def __check_matrix_non_negative(self):
         '''
 
         :return:
@@ -94,22 +114,36 @@ class MarkovChain:
                     raise Exception("transition matri must not have any  nevative elements")
 
 
-    def __check_probability(self):
+    def __check_initial_distribution_size(self):
+        self.__size = self.__initial_distribution.shape
+
+        if len(self.__size) !=2 :
+            raise Exception("initial_distribution's shape must be 2")
+        if self.__size[1] != 1:
+            raise Exception("initail_distribution must be n*1 matrix")
+
+
+
+
+
+
+    def __check_matrix_probability(self):
         '''
         sum of each row mustbe 1
         :return:
         '''
-        for i in range(self.__size[0]):
+        for i in range(self.__mat_size[0]):
             rowsum=sum(self.__transion_mat[0])
             if not(rowsum==1.0 or rowsum==1):
                 raise Exception("sum of each row must be 1")
 
 
     def __check_matrix_size(self):
-        self.__size=self.__transion_mat.shape
-        if len(self.__size)!=2:
+        self.__mat_size=self.__transion_mat.shape
+
+        if len(self.__mat_size)!=2:
             raise Exception("size must be 2")
-        if self.__size[0]!=self.__size[1]:
+        if self.__mat_size[0]!=self.__mat_size[1]:
             raise Exception("transition  matrix musst  be square")
 
 
@@ -120,8 +154,8 @@ if __name__=="__main__":
     #print(np.transpose(mat))
 
     markov=MarkovChain()
-    (markov.calc_statioanry_distribution(mat))
+    #(markov.calc_statioanry_distribution(mat))
 
-    markov.calc_n_step_ahead_distribution(mat,np.array([0.4,0.1,0.5],dtype=float),4000)
+    markov.calc_n_step_ahead_distribution(mat,np.array([[0.4],[0.1],[0.5]],dtype=float),4000)
 
 
