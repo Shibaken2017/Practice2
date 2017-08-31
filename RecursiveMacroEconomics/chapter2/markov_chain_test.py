@@ -13,6 +13,9 @@ class test_markov_chain(unittest.TestCase):
 
 
 
+    
+
+
     def test_complex_matrix(self):
         markov=MarkovChain()
         mat= np.array([[1.j,-1.j,1.0],[0.2,0.2,0.6],[0.3,0.3,0.4]])

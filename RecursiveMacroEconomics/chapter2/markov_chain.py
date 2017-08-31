@@ -8,6 +8,12 @@ class MarkovChain:
 
 
     def calc_n_step_ahead_distribution(self,transition_mat,initial_distribution,num_of_transition):
+        self.__size = self.__transion_mat.shape
+
+        if len(self.__size) != 2:
+            raise Exception("size must be 2")
+        if self.__size[0] != self.__size[1]:
+            raise Exception("transition  matrix musst  be square")
         '''
 
         :param transition_mat:
@@ -16,6 +22,7 @@ class MarkovChain:
         :return:
         '''
         self.set_matrix(transition_mat)
+        self.check_initial_distribution()
         self.__initial_distribution=initial_distribution
 
         tmp_init=self.__initial_distribution
@@ -37,6 +44,18 @@ class MarkovChain:
 
     def check_initial_distribution(self):
         self.__check__types(self.__initial_distribution)
+        #check whether initial dist is  probability distribution
+
+    def __check__initial_dist_probability(self):
+        if np.sum(self.__initial_distribution)>0:
+            raise Exception("initial distribution elements must be non negative")
+
+        if not np.sum(self.__initial_distribution)==1:
+            raise Exception("sum of initial distribution must be 1")
+
+
+
+
 
 
 
