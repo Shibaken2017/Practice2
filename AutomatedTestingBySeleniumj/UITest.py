@@ -1,3 +1,10 @@
+'''
+APIにリクエストを自動的に投げる
+'''
+from AutomatedTestingBySeleniumj.load_file import  load_file
+
+
+
 from selenium import webdriver
 import selenium
 import datetime
@@ -16,14 +23,18 @@ BOUNDARY2="boundary2"
 EXTERIOR1="exterior1"
 EXTERIOR2="exterior2"
 import time
-'''
-APIにリクエストを自動的に投げる
-'''
+
+
+
+
+
+
+
 
 
 #休暇がdddd/dd/dd　の形式で書かれたcsv
 HOLIDAYS_FNAME="./holidays.csv"
-TARGET_URL=""
+TARGET_URL=load_file("uitest_url.txt")
 MODE_LIST=["D","W","M","S"]
 CODE_DICT={"valid":1332,"invalid":9999}
 class RequestSender:
