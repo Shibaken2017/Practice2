@@ -39,7 +39,9 @@ MODE_LIST=["D","W","M","S"]
 CODE_DICT={"valid":1332,"invalid":9999}
 class RequestSender:
     def __init__(self):
-        self.driver=webdriver.Firefox()
+        self.driver=webdriver.PhantomJS()
+
+        self.driver.maximize_window()
         self.driver.get(TARGET_URL)
         #
         self.driver.implicitly_wait(200)

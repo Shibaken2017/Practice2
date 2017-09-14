@@ -20,6 +20,10 @@ class SearchTest(unittest.TestCase):
         self.form_textfield.submit()
         
 
+    def calc_start_time(self):
+        print()
+    def calc_end_time(self):
+        print()
 
     def tearDown(self):
         self.driver.quit()

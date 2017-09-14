@@ -3,6 +3,8 @@ import unittest
 TARGET_URL=""
 
 
+
+
 class RegisteNewUser(unittest.TestCase):
     def setUp(self):
         self.driver=webdriver.Firefox()
@@ -17,9 +19,15 @@ class RegisteNewUser(unittest.TestCase):
         create_account_button=driver.find_element_by_xpath("//button[@title='Create an Account''")
         create_account_button.is_displayed()
         create_account_button.click()
+        #
+        first_name=driver.find_element_by_id("first-name")
+        first_name.get_attribute("max_length")
+        first_name.is_enabled()
 
-        first_element=driver.find_element_by_id("first-name")
 
-        \
+
+        #last_name=driver.find_element_by_id("last-name")
+        #email_address=driver.find_element_by_id("email_address")
+
 
 
