@@ -42,3 +42,4 @@ for i in range(I):
 ensemble_mean=ensemble_mean/I
 ax.plot(ensemble_mean,color="b",lw=2,alpha=0.8,label="y_t")
 
+    
