@@ -23,12 +23,23 @@ class ARModel:
 
         self.order_check()
 
+        self.pred=self.initial
 
     def predict(self):
+        st=0
+        ed=self.order
 
-        
 
+        for i in range(100):
+            print(self.param[1:])
+            print(self.pred[0:])
+            #np.dot(self.param[1:],self.predict[0:2])
+            predict=self.param[0]+np.dot(self.param[1:],self.pred[st:ed])
+            self.pred=np.append(self.pred,predict)
+            st+=1
+            ed+=1
 
+        print(self.pred)
 
 
 
@@ -56,10 +67,13 @@ class ARModel:
 
 
     def order_check(self):
-        if type(self.order) !="int":
+        if type(self.order) !=int:
             raise Exception("order must be integer")
         if not(0<self.order and self.order<21):
             raise Exception("order must be integer and 0< order<21")
 
 
 
+if __name__=="__main__":
+    test=ARModel(2,np.array([1,2,3]),np.array([1,1]))
+    test.predict()
